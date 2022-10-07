@@ -1,0 +1,82 @@
+    FROM nvidia/cuda:11.7.1-cudnn8-devel-ubuntu22.04
+
+# username
+ENV USERNAME=larme
+
+# unminimize system and configure locale
+RUN apt-get update && (yes | unminimize) && \
+    apt-get update && apt-get -y install locales && \
+    locale-gen --no-purge en_US.UTF-8
+ENV LANG en_US.UTF-8  
+ENV LANGUAGE en_US:en  
+ENV LC_ALL en_US.UTF-8
+
+# configure timezone
+ENV TZ=Asia/Hong_Kong
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+# install applications
+RUN apt-get update && apt-get install -y \
+    apt-utils aptitude \
+    build-essential cmake libtool libffi-dev zlib1g-dev \
+    man aspell-en w3m libvterm-dev cloc tmux git \
+    python3 python3-venv python3-dev \
+    curl wget unzip sudo htop gosu \
+    sdcv vim libenchant-2-2
+
+# install emacs 28
+RUN apt-get update && \
+    apt-get install -y software-properties-common && add-apt-repository -y ppa:kelleyk/emacs && \
+    apt-get update && apt-get install -y emacs28-nox
+
+# install docker
+RUN apt-get update && apt-get install -y \
+    ca-certificates \
+    gnupg \
+    lsb-release
+RUN mkdir -p /etc/apt/keyrings && \
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg && \
+    echo \
+    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+    $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null && \
+    apt-get update && apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+# install nodejs
+RUN mkdir -p /usr/local/ && \
+    curl https://nodejs.org/dist/v16.17.1/node-v16.17.1-linux-x64.tar.xz | tar Jxf - -C /usr/local/ --strip-components=1
+
+# install python3.7 to python 3.10
+RUN add-apt-repository -y ppa:deadsnakes/ppa && \
+    apt-get update && apt-get install -y \
+    python3.7 python3.7-venv \
+    python3.8 python3.8-venv \
+    python3.9 python3.9-venv
+
+# add user
+RUN useradd -ms /bin/bash $USERNAME
+RUN touch /etc/sudoers.d/local-sudoer && \
+    echo "$USERNAME   ALL=(ALL) ALL" >> /etc/sudoers.d/local-sudoer && \
+    echo "Defaults:$USERNAME      !authenticate" >> /etc/sudoers.d/local-sudoer
+RUN chmod 0440 /etc/sudoers.d/local-sudoer
+
+# mkdir workspace for mount volumes
+RUN mkdir /workspace
+
+# do everything from now in that users home directory
+WORKDIR /home/$USERNAME
+ENV HOME /home/$USERNAME
+
+# copy configuration files
+RUN mkdir -p .ro/emacs.d .config
+COPY dotfiles.cache .dotfiles
+RUN mv .bashrc .bashrc.bak && \ 
+    cd .dotfiles && gosu "$USERNAME" bash ./deploy.sh && cd .. && \
+    ln -s .dotfiles/docker-gpu-devbox/bashrc.settings .bashrc.local.settings && \
+    ln -s .dotfiles/docker-gpu-devbox/bashrc.startup .bashrc.local.startup
+RUN mkdir -p .ro/emacs.d
+COPY emacs-init-files.cache .ro/emacs.d/init
+RUN chown -R "$USERNAME": .ro/emacs.d && cd .ro/emacs.d/init && gosu "$USERNAME" bash -c ./deploy-inside-docker.sh && cd $WORKDIR && ln -s .ro/emacs.d/init/modules.docker-gpu-devbox .el.local
+
+# entrypoint script does switches u/g ID's and `chown`s everything
+COPY entrypoint.sh /bin/entrypoint.sh
+CMD ["/bin/entrypoint.sh"]
