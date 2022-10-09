@@ -12,7 +12,7 @@ if [ ! -z "$USER_ID" ] && [ "$(id -u $USERNAME)" != "$USER_ID" ]; then
 fi
 
 # Setting permissions on /home/me
-# chown -R "$USERNAME": "/home/$USERNAME"
+chown -R "$USERNAME": "/home/$USERNAME"
 # Setting permissions on docker.sock
 chown "$USERNAME": /var/run/docker.sock
 

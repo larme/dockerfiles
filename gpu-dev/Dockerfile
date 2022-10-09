@@ -18,7 +18,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 # install applications
 RUN apt-get update && apt-get install -y \
     apt-utils aptitude \
-    build-essential cmake libtool libffi-dev zlib1g-dev \
+    build-essential cmake pkg-config libtool libffi-dev zlib1g-dev \
     man aspell-en w3m libvterm-dev cloc tmux git \
     python3 python3-venv python3-dev \
     curl wget unzip sudo htop gosu \
@@ -52,6 +52,9 @@ RUN add-apt-repository -y ppa:deadsnakes/ppa && \
     python3.8 python3.8-venv \
     python3.9 python3.9-venv
 
+# link cuda to make pkg-config --cflags cuda works
+RUN ln -s /usr/lib/pkgconfig/cuda-11.7.pc /usr/lib/pkgconfig/cuda.pc
+
 # add user
 RUN useradd -ms /bin/bash $USERNAME
 RUN touch /etc/sudoers.d/local-sudoer && \
@@ -67,7 +70,8 @@ WORKDIR /home/$USERNAME
 ENV HOME /home/$USERNAME
 
 # copy configuration files
-RUN mkdir -p .ro/emacs.d .config
+RUN mkdir -p .ro/emacs.d .config && \
+    chown -R "$USERNAME": .config
 COPY dotfiles.cache .dotfiles
 RUN mv .bashrc .bashrc.bak && \ 
     cd .dotfiles && gosu "$USERNAME" bash ./deploy.sh && cd .. && \
