@@ -22,7 +22,7 @@ RUN apt-get update && apt-get install -y \
     man aspell-en w3m libvterm-dev cloc tmux git \
     python3 python3-venv python3-dev \
     curl wget unzip sudo htop gosu \
-    sdcv vim libenchant-2-2
+    sdcv vim mg libenchant-2-2
 
 # install emacs 28
 RUN apt-get update && \
