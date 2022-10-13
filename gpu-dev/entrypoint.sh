@@ -30,5 +30,6 @@ gosu "$USERNAME" bash -c  "mkdir -p /workspace/.local/w3m && ln -s /workspace/.l
 gosu "$USERNAME" bash -c "mkdir -p /workspace/.local/emacs.d && ln -s /workspace/.local/emacs.d ~/.emacs.d"
 gosu "$USERNAME" bash -c "~/.ro/emacs.d/init/init-dirs.sh && touch ~/.emacs.d/flags/docker"
 gosu "$USERNAME" bash -c "touch /workspace/.local/bash_history && ln -s /workspace/.local/bash_history ~/.bash_history"
+gosu "$USERNAME" bash -c "touch /workspace/.local/sbclrc && ln -s /workspace/.local/sbclrc ~/.sbclrc"
 
 exec /usr/sbin/gosu $USERNAME bash -l
