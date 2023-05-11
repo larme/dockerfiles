@@ -26,10 +26,7 @@ done
 ln -s /workspace/.local "/home/$USERNAME/.local" && \
     chown -h "$USERNAME": "/home/$USERNAME/.local"
 
-gosu "$USERNAME" bash -c  "mkdir -p /workspace/.local/w3m && ln -s /workspace/.local/w3m ~/.w3m"
 gosu "$USERNAME" bash -c "mkdir -p /workspace/.local/emacs.d && ln -s /workspace/.local/emacs.d ~/.emacs.d"
 gosu "$USERNAME" bash -c "~/.ro/emacs.d/init/init-dirs.sh && touch ~/.emacs.d/flags/docker"
-gosu "$USERNAME" bash -c "touch /workspace/.local/bash_history && ln -s /workspace/.local/bash_history ~/.bash_history"
-gosu "$USERNAME" bash -c "touch /workspace/.local/sbclrc && ln -s /workspace/.local/sbclrc ~/.sbclrc"
-
+gosu "$USERNAME" /bin/link-dotfiles.sh
 exec /usr/sbin/gosu $USERNAME bash -l

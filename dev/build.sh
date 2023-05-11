@@ -1,4 +1,14 @@
-WORKING_DIR=`pwd`
+if [[ $# -eq 0 ]] ; then
+    echo 'need provide image short name/variant'
+    exit 1
+fi
+
+VARIANT=$1
+TODAY=$(date '+%Y-%m-%d')
+WORKING_DIR=$(pwd)
+
+python3 gen-dockerfile.py
+
 # clone private repositories
 if [[ -d "emacs-init-files.cache" ]]
 then
@@ -16,4 +26,4 @@ else
 fi
 
 cd "$WORKING_DIR"
-docker build -t larme/cpu-dev .
+docker build -f "./generated/Dockerfile.$VARIANT" -t "larme/$VARIANT-dev:$TODAY" -t "larme/$VARIANT-dev:latest" .
