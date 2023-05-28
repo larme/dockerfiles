@@ -7,7 +7,7 @@ VARIANT=$1
 TODAY=$(date '+%Y-%m-%d')
 WORKING_DIR=$(pwd)
 
-python3 gen-dockerfile.py
+mkdir -p generated/ && python3 gen-dockerfile.py
 
 # clone private repositories
 if [[ -d "emacs-init-files.cache" ]]
