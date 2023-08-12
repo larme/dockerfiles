@@ -21,12 +21,13 @@ RUN apt-get update && apt-get install -y \
     build-essential cmake pkg-config libtool libffi-dev zlib1g-dev \
     man aspell-en w3m libvterm-dev cloc tmux git git-lfs\
     python3 python3-venv python3-dev python3-pip python3-jinja2\
-    curl wget unzip sudo htop gosu iputils-ping\
+    curl wget unzip sudo htop gosu iputils-ping proxychains4\
     sdcv vim mg libenchant-2-2 \
     libsndfile1-dev ccls
 
+
 # install pip apps
-RUN pip install ddgr
+RUN pip install pipx
 
 # install emacs 28
 RUN apt-get update && \
