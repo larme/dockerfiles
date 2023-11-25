@@ -9,10 +9,10 @@ conf = {
     },
 
     "gpu": {
-        "base_image": "nvidia/cuda:11.7.1-cudnn8-devel-ubuntu22.04",
+        "base_image": "nvidia/cuda:12.0.1-cudnn8-devel-ubuntu22.04",
         "image_name": "gpu-devbox",
         "extra_post_install_commands": [
-            "RUN ln -s /usr/lib/pkgconfig/cuda-11.7.pc /usr/lib/pkgconfig/cuda.pc",
+            "RUN ln -s /usr/lib/pkgconfig/cuda-12.0.pc /usr/lib/pkgconfig/cuda.pc",
         ],
         "node_version": NODE_LTS,
     }
