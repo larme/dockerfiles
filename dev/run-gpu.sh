@@ -11,7 +11,5 @@ docker run --name gpu-devbox -h gpu-devbox --gpus all -it --rm \
        -v /var/run/docker.sock:/var/run/docker.sock \
        -e HOST_USER_ID=$(id -u $USER) \
        -e HOST_GROUP_ID=$(id -g $USER) \
-       -p 3000:3000 \
-       -p 4000:4000 \
-       -p 127.0.0.1:11234:11233 \
+       --net=host \
        larme/gpu-dev:latest

@@ -11,5 +11,5 @@ docker run --name cpu-devbox -h cpu-devbox -it --rm \
        -v /var/run/docker.sock:/var/run/docker.sock \
        -e HOST_USER_ID=$(id -u $USER) \
        -e HOST_GROUP_ID=$(id -g $USER) \
-       -p 21234:21234 \
+       --net=host \
        larme/cpu-dev-aarch64:latest
