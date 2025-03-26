@@ -1,4 +1,4 @@
-docker run --name gpu-devbox -h gpu-devbox --gpus all -it --rm \
+docker run --name gpu-devbox -h $(hostname) --gpus all -it --rm \
        -v ~/codes:/workspace/codes \
        -v ~/bentoml:/workspace/bentoml \
        -v ~/notebooks:/workspace/notebooks \

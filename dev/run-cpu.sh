@@ -1,4 +1,4 @@
-docker run --name cpu-devbox -h cpu-devbox -it --rm \
+docker run --name cpu-devbox -h $(hostname) -it --rm \
        -v ~/codes:/workspace/codes \
        -v ~/bentoml:/workspace/bentoml \
        -v ~/notebooks:/workspace/notebooks \
