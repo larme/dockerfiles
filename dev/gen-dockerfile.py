@@ -2,7 +2,7 @@ NODE_LTS = "18.16.0"
 
 conf = {
     "cpu": {
-        "base_image": "ubuntu:jammy",
+        "base_image": "ubuntu:noble",
         "image_name": "cpu-devbox",
         "extra_post_install_commands": [],
         "node_version": NODE_LTS,
