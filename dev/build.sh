@@ -3,7 +3,16 @@ if [[ $# -eq 0 ]] ; then
     exit 1
 fi
 
+if [ -e ~/.local/share/container-registry.txt ]
+then
+    echo "registry file exists"
+else
+    echo "registry file missing"
+    exit 1
+fi
+
 VARIANT=$1
+REGISTRY=`cat ~/.local/share/container-registry.txt | xargs`
 TODAY=$(date '+%Y-%m-%d')
 WORKING_DIR=$(pwd)
 
@@ -26,4 +35,4 @@ else
 fi
 
 cd "$WORKING_DIR"
-docker build -f "./generated/Dockerfile.$VARIANT" -t "larme/$VARIANT-dev:$TODAY" -t "larme/$VARIANT-dev:latest" .
+docker build -f "./generated/Dockerfile.$VARIANT" -t "${REGISTRY}/$VARIANT-dev:$TODAY" -t "{REGISTRY}/$VARIANT-dev:latest" .

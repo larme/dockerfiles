@@ -1,3 +1,13 @@
+if [ -e ~/.local/share/container-registry.txt ]
+then
+    echo "registry file exists"
+else
+    echo "registry file missing"
+    exit 1
+fi
+
+REGISTRY=`cat ~/.local/share/container-registry.txt | xargs`
+
 docker run --name gpu-devbox -h $(hostname) --gpus all -it --rm \
        -v ~/codes:/workspace/codes \
        -v ~/bentoml:/workspace/bentoml \
@@ -12,4 +22,4 @@ docker run --name gpu-devbox -h $(hostname) --gpus all -it --rm \
        -e HOST_USER_ID=$(id -u $USER) \
        -e HOST_GROUP_ID=$(id -g $USER) \
        --net=host \
-       larme/gpu-dev:latest
+       ${REGISTRY}/gpu-dev:latest
