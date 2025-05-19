@@ -35,4 +35,4 @@ else
 fi
 
 cd "$WORKING_DIR"
-docker build -f "./generated/Dockerfile.$VARIANT" -t "${REGISTRY}/$VARIANT-dev:$TODAY" -t "{REGISTRY}/$VARIANT-dev:latest" .
+docker build -f "./generated/Dockerfile.$VARIANT" -t "${REGISTRY}/$VARIANT-dev:$TODAY" -t "${REGISTRY}/$VARIANT-dev:latest" .
