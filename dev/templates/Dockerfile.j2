@@ -19,7 +19,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 # install applications
 RUN apt-get update && apt-get install -y \
     apt-utils aptitude \
-    build-essential cmake pkg-config libtool libffi-dev zlib1g-dev \
+    build-essential cmake pkg-config libtool libffi-dev zlib1g-dev libcurl4-openssl-dev libportaudio2 \
     man aspell-en w3m libvterm-dev cloc tmux git git-lfs mosh sqlite3 bat \
     python3 python3-venv python3-dev python3-pip python3-jinja2 pipx \
     lua5.4 luarocks shellcheck pandoc texlive texlive-fonts-recommended texlive-extra-utils texlive-latex-extra texlive-lang-chinese \
@@ -27,6 +27,7 @@ RUN apt-get update && apt-get install -y \
     sdcv vim mg libenchant-2-2 scrypt secure-delete \
     libpng-dev libsndfile1-dev ccls clangd ffmpeg ninja-build \
     emacs-nox software-properties-common sbcl \
+    libssl-dev protobuf-compiler \
     && ln -s /usr/bin/batcat /usr/local/bin/bat
 
 # # install emacs 28
