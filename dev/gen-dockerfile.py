@@ -1,4 +1,4 @@
-NODE_LTS = "18.16.0"
+NODE_LTS = "24.11.0"
 
 conf = {
     "cpu": {
@@ -9,10 +9,10 @@ conf = {
     },
 
     "gpu": {
-        "base_image": "nvidia/cuda:12.8.1-cudnn-devel-ubuntu24.04",
+        "base_image": "nvidia/cuda:12.9.1-cudnn-devel-ubuntu24.04",
         "image_name": "gpu-devbox",
         "extra_post_install_commands": [
-            "RUN ln -s /usr/lib/pkgconfig/cuda-12.8.pc /usr/lib/pkgconfig/cuda.pc",
+            "RUN ln -s /usr/lib/pkgconfig/cuda-12.9.pc /usr/lib/pkgconfig/cuda.pc",
         ],
         "node_version": NODE_LTS,
     }
