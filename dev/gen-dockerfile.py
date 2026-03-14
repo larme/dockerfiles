@@ -1,8 +1,10 @@
 NODE_LTS = "24.11.0"
+EMACS_VER = "30.2"
 
 conf = {
     "cpu": {
         "base_image": "ubuntu:noble",
+        "emacs_version": EMACS_VER,
         "image_name": "cpu-devbox",
         "extra_post_install_commands": [],
         "node_version": NODE_LTS,
@@ -10,6 +12,7 @@ conf = {
 
     "gpu": {
         "base_image": "nvidia/cuda:12.9.1-cudnn-devel-ubuntu24.04",
+        "emacs_version": EMACS_VER,
         "image_name": "gpu-devbox",
         "extra_post_install_commands": [
             "RUN ln -s /usr/lib/pkgconfig/cuda-12.9.pc /usr/lib/pkgconfig/cuda.pc",
@@ -33,4 +36,3 @@ if __name__ == "__main__":
         with open(filename, mode="w", encoding="utf-8") as message:
             message.write(content)
             print(f"... wrote {filename}")
-
