@@ -11,11 +11,11 @@ conf = {
     },
 
     "gpu": {
-        "base_image": "nvidia/cuda:12.9.1-cudnn-devel-ubuntu24.04",
+        "base_image": "nvidia/cuda:13.1.1-cudnn-devel-ubuntu24.04",
         "emacs_version": EMACS_VER,
         "image_name": "gpu-devbox",
         "extra_post_install_commands": [
-            "RUN ln -s /usr/lib/pkgconfig/cuda-12.9.pc /usr/lib/pkgconfig/cuda.pc",
+            "RUN ln -s /usr/lib/pkgconfig/cuda-13.1.pc /usr/lib/pkgconfig/cuda.pc",
         ],
         "node_version": NODE_LTS,
     }
